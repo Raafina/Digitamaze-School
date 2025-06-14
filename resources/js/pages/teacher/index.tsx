@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table } from '@/components/ui/table';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
@@ -26,7 +27,20 @@ type Teacher = {
     phone: string;
 };
 
-export default function Teacher({ teachers }: { teachers: Teacher[] }) {
+type StudentClass = {
+    id: number;
+    name: string;
+};
+
+export default function Teacher({
+    teachers,
+    studentClasses,
+    selectedClassId,
+}: {
+    teachers: Teacher[];
+    studentClasses: StudentClass[];
+    selectedClassId: number | null;
+}) {
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     function handleDeleteConfirm() {
@@ -48,6 +62,24 @@ export default function Teacher({ teachers }: { teachers: Teacher[] }) {
                     <Button variant="default" onClick={() => router.visit(route('teachers.create'))}>
                         Tambah Guru
                     </Button>
+                    <Select
+                        value={selectedClassId?.toString() ?? 'all'}
+                        onValueChange={(value) => {
+                            router.get(route('teachers.index'), { class_id: value === 'all' ? null : value }, { preserveScroll: true });
+                        }}
+                    >
+                        <SelectTrigger className="w-[200px]">
+                            <SelectValue placeholder="Filter Kelas" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">Semua Kelas</SelectItem>
+                            {studentClasses.map((cls) => (
+                                <SelectItem key={cls.id} value={cls.id.toString()}>
+                                    {cls.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <Table headers={['NIP', 'Nama', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>

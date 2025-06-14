@@ -21,4 +21,9 @@ class Teacher extends Model
         'phone',
         'email',
     ];
+
+    public function studentClasses()
+    {
+        return $this->belongsToMany(StudentClass::class, 'class_teacher');
+    }
 }

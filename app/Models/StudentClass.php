@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,11 +21,6 @@ class StudentClass extends Model
         'period'
     ];
 
-    public function students()
-    {
-        return $this->hasMany(Student::class, 'class_id');
-    }
-
     protected static function booted()
     {
         static::deleting(function ($kelas) {
@@ -37,5 +34,15 @@ class StudentClass extends Model
         static::restoring(function ($kelas) {
             $kelas->students()->withTrashed()->restore();
         });
+    }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'class_teacher');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
 }

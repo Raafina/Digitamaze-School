@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Teacher;
+use App\Models\StudentClass;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
@@ -12,11 +13,22 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::all();
+        $selectedClassId = $request->get('class_id');
+
+        $teachers = Teacher::with('studentClasses')
+            ->when($selectedClassId, function ($query, $classId) {
+                $query->whereHas('studentClasses', function ($q) use ($classId) {
+                    $q->where('student_classes.id', $classId);
+                });
+            })
+            ->get();
+
         return Inertia::render('teacher/index', [
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'studentClasses' => StudentClass::select('id', 'name')->get(),
+            'selectedClassId' => $selectedClassId,
         ]);
     }
 
