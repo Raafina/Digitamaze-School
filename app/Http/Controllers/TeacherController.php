@@ -50,14 +50,6 @@ class TeacherController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Teacher $teacher)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
@@ -71,7 +63,7 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
 
         $validated = $request->validate([
@@ -79,7 +71,7 @@ class TeacherController extends Controller
                 'required',
                 'max:255',
                 Rule::unique('teachers')
-                    ->ignore($teacher->id)
+                    ->ignore($id)
                     ->whereNull('deleted_at'),
             ],
             'name' => ['required', 'max:255'],
@@ -88,6 +80,7 @@ class TeacherController extends Controller
             'phone' => ['required', 'max:15'],
         ]);
 
+        $teacher = Teacher::findOrFail($id);
         $teacher->update($validated);
 
         return redirect()->route('teachers.index');

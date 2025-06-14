@@ -22,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 type UpdateTeacherForm = {
-    id: number;
+    id: string;
     NIP: string;
     name: string;
     email: string;
