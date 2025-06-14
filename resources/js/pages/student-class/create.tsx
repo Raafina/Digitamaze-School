@@ -26,7 +26,7 @@ type CreateTeacherForm = {
     period: string;
 };
 
-export default function TeacherCreate() {
+export default function StudentClassCreate() {
     const { data, setData, post, processing, errors, reset } = useForm<Required<CreateTeacherForm>>({
         code: '',
         name: '',

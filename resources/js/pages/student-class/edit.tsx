@@ -27,7 +27,7 @@ type UpdateStudentClassForm = {
     period: string;
 };
 
-export default function TeacherEdit({ student_class }: { student_class: UpdateStudentClassForm }) {
+export default function StudentClassEdit({ student_class }: { student_class: UpdateStudentClassForm }) {
     const { data, setData, put, processing, errors, reset } = useForm<Required<UpdateStudentClassForm>>({
         id: student_class.id,
         code: student_class.code,

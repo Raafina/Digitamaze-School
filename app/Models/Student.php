@@ -22,4 +22,9 @@ class Student extends Model
         'address',
         'class_id'
     ];
+
+    public function class()
+    {
+        return $this->belongsTo(StudentClass::class, 'class_id');
+    }
 }

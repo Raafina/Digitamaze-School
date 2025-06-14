@@ -17,14 +17,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Teacher {
+type Teacher = {
     id: number;
     NIP: string;
     name: string;
     sex: string;
     email: string;
     phone: string;
-}
+};
 
 export default function Teacher({ teachers }: { teachers: Teacher[] }) {
     const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -57,7 +57,7 @@ export default function Teacher({ teachers }: { teachers: Teacher[] }) {
                             <TableCell isHeader>{teacher.name}</TableCell>
                             <TableCell>{teacher.email ?? '-'}</TableCell>
                             <TableCell>{teacher.phone ?? '-'}</TableCell>
-                            <TableCell>{teacher.sex === 'M' ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                            <TableCell>{teacher.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>
