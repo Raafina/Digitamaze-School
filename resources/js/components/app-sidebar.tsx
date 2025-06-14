@@ -8,18 +8,19 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Siswa',
-        href: '/dashboard',
-        icon: GraduationCapIcon,
-    }, {
+        title: 'Guru',
+        href: '/admin/teachers',
+        icon: SquareUserRound,
+    },
+    {
         title: 'Kelas',
-        href: '/dashboard',
+        href: '/admin/classes',
         icon: House,
     },
     {
-        title: 'Guru',
-        href: '/dashboard',
-        icon: SquareUserRound,
+        title: 'Siswa',
+        href: '/admin/students',
+        icon: GraduationCapIcon,
     },
 ];
 

@@ -15,7 +15,7 @@ class Teacher extends Model
     ];
 
     protected $fillable = [
-        'nip',
+        'NIP',
         'name',
         'sex',
         'phone',

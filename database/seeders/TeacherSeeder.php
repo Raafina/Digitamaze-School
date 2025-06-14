@@ -14,8 +14,8 @@ class TeacherSeeder extends Seeder
     public function run(): void
     { {
             $teachers = [
-                ['id' => 1, 'nip' => '1234567890', 'name' => 'John Doe', 'sex' => 'M', 'phone' => '08123456789', 'email' => 'johndoe@example.com'],
-                ['id' => 2, 'nip' => '0987654321', 'name' => 'Jane Smith', 'sex' => 'F', 'phone' => '08198765432', 'email' => 'janesmith@example.com'],
+                ['id' => 1, 'nip' => '1234567890', 'name' => 'John Doe', 'sex' => 'male', 'phone' => '08123456789', 'email' => 'johndoe@example.com'],
+                ['id' => 2, 'nip' => '0987654321', 'name' => 'Jane Smith', 'sex' => 'female', 'phone' => '08198765432', 'email' => 'janesmith@example.com'],
             ];
 
             foreach ($teachers as $teacher) {

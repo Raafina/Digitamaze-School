@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('nip')->unique();
+            $table->string('NIP')->unique();
             $table->string('name');
-            $table->enum('sex', ['M', 'F']);
+            $table->enum('sex', ['male', 'female']);
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
