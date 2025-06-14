@@ -2,7 +2,8 @@ import { SVGAttributes } from 'react';
 
 export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
     return (
-        <svg {...props}
+        <svg
+            {...props}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -12,7 +13,8 @@ export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            className="lucide lucide-university-icon lucide-university">
+            className="lucide lucide-university-icon lucide-university"
+        >
             <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
             <path d="M18 12h.01" />
             <path d="M18 16h.01" />
@@ -20,7 +22,6 @@ export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
             <path d="M6 12h.01" />
             <path d="M6 16h.01" />
             <circle cx="12" cy="10" r="2" />
-        </svg>);
+        </svg>
+    );
 }
-
-

@@ -13,11 +13,18 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('class')->get();
+        $classId = $request->input('class_id');
+        $students = Student::with('class')
+            ->when($classId, fn($q) => $q->where('class_id', $classId))
+            ->get();
+
+        $classes = StudentClass::select('id', 'name')->get();
         return Inertia::render('student/index', [
-            'students' => $students
+            'students' => $students,
+            'classes' => $classes,
+            'selectedClass' => $classId,
         ]);
     }
 

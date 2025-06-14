@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table } from '@/components/ui/table';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
@@ -26,7 +27,15 @@ type Student = {
     date_of_birth: string;
 };
 
-export default function Student({ students }: { students: Student[] }) {
+export default function Student({
+    students,
+    classes,
+    selectedClass,
+}: {
+    students: Student[];
+    classes: { id: number; name: string }[];
+    selectedClass: string | null;
+}) {
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     function handleDeleteConfirm() {
@@ -48,16 +57,45 @@ export default function Student({ students }: { students: Student[] }) {
                     <Button variant="default" onClick={() => router.visit(route('student.create'))}>
                         Tambah Siswa
                     </Button>
+
+                    <div className="w-64">
+                        <Select
+                            value={selectedClass ?? 'all'}
+                            onValueChange={(value) => {
+                                router.get(
+                                    route('student.index'),
+                                    {
+                                        class_id: value === 'all' ? null : value,
+                                    },
+                                    {
+                                        preserveScroll: true,
+                                    },
+                                );
+                            }}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter Kelas" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">Semua Kelas</SelectItem>
+                                {classes.map((cls) => (
+                                    <SelectItem key={cls.id} value={cls.id.toString()}>
+                                        {cls.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 <Table headers={['siswa', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
                     {students.map((student) => (
                         <TableRow key={student.id}>
-                            <TableCell>{student.class?.name}</TableCell>
+                            <TableCell isHeader>{student.class?.name}</TableCell>
                             <TableCell>{student.nis}</TableCell>
                             <TableCell isHeader>{student.name}</TableCell>
                             <TableCell>{student.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
-                            <TableCell isHeader>{student.date_of_birth}</TableCell>
+                            <TableCell>{student.date_of_birth}</TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>
