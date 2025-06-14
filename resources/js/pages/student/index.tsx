@@ -13,34 +13,35 @@ import { SquarePen, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'siswa',
-        href: '/admin/students',
+        title: 'guru',
+        href: '/admin/teachers',
     },
 ];
 
-type Student = {
+type Teacher = {
     id: number;
-    class: { name: string };
-    nis: string;
+    NIP: string;
     name: string;
     sex: string;
-    date_of_birth: string;
+    phone: string;
+    email: string;
+    student_classes: { id: number; name: string }[];
 };
 
-export default function Student({
-    students,
-    classes,
-    selectedClass,
+export default function Teacher({
+    teachers,
+    studentClasses,
+    selectedClassId,
 }: {
-    students: Student[];
-    classes: { id: number; name: string }[];
-    selectedClass: string | null;
+    teachers: Teacher[];
+    studentClasses: { id: number; name: string }[];
+    selectedClassId: string | null;
 }) {
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     function handleDeleteConfirm() {
         if (selectedId) {
-            router.delete(route('student.destroy', selectedId), {
+            router.delete(route('teacher.destroy', selectedId), {
                 preserveScroll: true,
                 onSuccess: () => setSelectedId(null),
             });
@@ -49,21 +50,21 @@ export default function Student({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Daftar Siswa" />
+            <Head title="Daftar Guru" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <h1 className="text-3xl font-medium">Daftar Siswa</h1>
+                <h1 className="text-3xl font-medium">Daftar Guru</h1>
 
                 <div className="flex justify-between py-1">
-                    <Button variant="default" onClick={() => router.visit(route('student.create'))}>
-                        Tambah Siswa
+                    <Button variant="default" onClick={() => router.visit(route('teacher.create'))}>
+                        Tambah Guru
                     </Button>
 
                     <div className="w-64">
                         <Select
-                            value={selectedClass ?? 'all'}
+                            value={selectedClassId ?? 'all'}
                             onValueChange={(value) => {
                                 router.get(
-                                    route('student.index'),
+                                    route('teacher.index'),
                                     {
                                         class_id: value === 'all' ? null : value,
                                     },
@@ -78,7 +79,7 @@ export default function Student({
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">Semua Kelas</SelectItem>
-                                {classes.map((cls) => (
+                                {studentClasses.map((cls) => (
                                     <SelectItem key={cls.id} value={cls.id.toString()}>
                                         {cls.name}
                                     </SelectItem>
@@ -88,24 +89,41 @@ export default function Student({
                     </div>
                 </div>
 
-                <Table headers={['siswa', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
-                    {students.map((student) => (
-                        <TableRow key={student.id}>
-                            <TableCell isHeader>{student.class?.name}</TableCell>
-                            <TableCell>{student.nis}</TableCell>
-                            <TableCell isHeader>{student.name}</TableCell>
-                            <TableCell>{student.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
-                            <TableCell>{student.date_of_birth}</TableCell>
+                <Table headers={['NIP', 'Nama', 'Jenis Kelamin', 'Kelas yang Diajar', 'Kontak', 'Actions']}>
+                    {teachers.map((teacher) => (
+                        <TableRow key={teacher.id}>
+                            <TableCell>{teacher.NIP}</TableCell>
+                            <TableCell isHeader>{teacher.name}</TableCell>
+                            <TableCell>{teacher.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                            <TableCell>
+                                <div className="flex flex-wrap gap-1">
+                                    {teacher.student_classes.map((cls) => (
+                                        <span
+                                            key={cls.id}
+                                            className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
+                                        >
+                                            {cls.name}
+                                        </span>
+                                    ))}
+                                    {teacher.student_classes.length === 0 && <span className="text-sm text-gray-400">Belum ada kelas</span>}
+                                </div>
+                            </TableCell>
+                            <TableCell>
+                                <div className="text-sm">
+                                    {teacher.phone && <div>{teacher.phone}</div>}
+                                    {teacher.email && <div className="text-gray-500">{teacher.email}</div>}
+                                </div>
+                            </TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button variant="destructive" onClick={() => setSelectedId(student.id)}>
+                                            <Button variant="destructive" onClick={() => setSelectedId(teacher.id)}>
                                                 <Trash2 />
                                             </Button>
                                         </DialogTrigger>
                                     </Dialog>
-                                    <Button variant="default" onClick={() => router.visit(route('student.edit', student.id))}>
+                                    <Button variant="default" onClick={() => router.visit(route('teacher.edit', teacher.id))}>
                                         <SquarePen />
                                     </Button>
                                 </div>
@@ -116,9 +134,9 @@ export default function Student({
 
                 <Dialog open={selectedId !== null} onOpenChange={(open) => !open && setSelectedId(null)}>
                     <DialogContent>
-                        <DialogTitle>Hapus Siswa?</DialogTitle>
+                        <DialogTitle>Hapus Guru?</DialogTitle>
                         <DialogDescription>
-                            Data siswa yang dihapus tidak dapat dikembalikan. Apakah Anda yakin ingin menghapus siswa ini?
+                            Data guru yang dihapus tidak dapat dikembalikan. Apakah Anda yakin ingin menghapus guru ini?
                         </DialogDescription>
                         <DialogFooter className="gap-2">
                             <DialogClose asChild>

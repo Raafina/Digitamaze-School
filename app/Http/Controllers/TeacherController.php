@@ -17,17 +17,18 @@ class TeacherController extends Controller
     {
         $selectedClassId = $request->get('class_id');
 
-        $teachers = Teacher::with('studentClasses')
+        $teachers = Teacher::with('studentClasses:id,name')
             ->when($selectedClassId, function ($query, $classId) {
                 $query->whereHas('studentClasses', function ($q) use ($classId) {
                     $q->where('student_classes.id', $classId);
                 });
             })
+            ->orderBy('name')
             ->get();
 
         return Inertia::render('teacher/index', [
             'teachers' => $teachers,
-            'studentClasses' => StudentClass::select('id', 'name')->get(),
+            'studentClasses' => StudentClass::select('id', 'name')->orderBy('name')->get(),
             'selectedClassId' => $selectedClassId,
         ]);
     }
