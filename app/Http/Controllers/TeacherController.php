@@ -100,7 +100,7 @@ class TeacherController extends Controller
         });
 
         return redirect()->route('teachers.index')
-            ->with('success', 'Guru berhasil ditambahkan!');
+            ->with('success', 'Data guru berhasil ditambahkan!');
     }
 
     /**
@@ -177,6 +177,6 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
 
-        return redirect()->route('teachers.index');
+        return redirect()->route('teachers.index')->with('success', 'Data Guru berhasil dihapus!');
     }
 }

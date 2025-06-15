@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table } from '@/components/ui/table';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
+import Toast from '@/components/ui/toast';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -91,6 +92,7 @@ export default function Teacher({
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Daftar Guru dan Kelas" />
+            <Toast />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-3xl font-medium">Daftar Guru</h1>
 

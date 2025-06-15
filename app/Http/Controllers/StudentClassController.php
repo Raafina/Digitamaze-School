@@ -45,7 +45,7 @@ class StudentClassController extends Controller
         ]);
 
         StudentClass::create($validated);
-        return redirect()->route('student-class.index');
+        return redirect()->route('student-class.index')->with('success', 'Data Kelas berhasil ditambahkan!');
     }
 
     /**
@@ -79,7 +79,7 @@ class StudentClassController extends Controller
         $student_class = StudentClass::findOrFail($id);
         $student_class->update($validated);
 
-        return redirect()->route('student-class.index');
+        return redirect()->route('student-class.index')->with('success', 'Data Kelas berhasil diubah!');
     }
 
     /**
@@ -90,6 +90,6 @@ class StudentClassController extends Controller
         $student_class = StudentClass::findOrFail($id);
         $student_class->delete();
 
-        return redirect()->route('student-class.index');
+        return redirect()->route('student-class.index')->with('success', 'Data Kelas berhasil dihapus!');
     }
 }

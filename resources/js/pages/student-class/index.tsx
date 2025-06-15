@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
+import { SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import Pagination from '@/components/pagination';
@@ -9,7 +10,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Table } from '@/components/ui/table';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
-import { SquarePen, Trash2 } from 'lucide-react';
+import Toast from '@/components/ui/toast';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,6 +75,7 @@ export default function StudentClass({ student_classes }: { student_classes: Pag
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Daftar Kelas" />
+            <Toast />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-3xl font-medium">Daftar Kelas</h1>
 
