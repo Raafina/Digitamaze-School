@@ -33,8 +33,6 @@ class TeacherSeeder extends Seeder
             $classIds = StudentClass::inRandomOrder()->limit(rand(1, 3))->pluck('id');
 
             $teacher->studentClasses()->attach($classIds);
-
-            echo "Created teacher: {$teacher->name} with classes: " . $classIds->implode(', ') . "\n";
         }
     }
 }

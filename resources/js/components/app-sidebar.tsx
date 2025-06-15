@@ -13,14 +13,14 @@ const mainNavItems: NavItem[] = [
         icon: SquareUserRound,
     },
     {
-        title: 'Kelas',
-        href: '/admin/student-classes',
-        icon: House,
-    },
-    {
         title: 'Siswa',
         href: '/admin/students',
         icon: GraduationCapIcon,
+    },
+    {
+        title: 'Kelas',
+        href: '/admin/student-classes',
+        icon: House,
     },
 ];
 

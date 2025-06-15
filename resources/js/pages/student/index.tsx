@@ -13,7 +13,7 @@ import { SquarePen, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'siswa',
+        title: 'Siswa',
         href: '/admin/students',
     },
 ];
@@ -25,6 +25,15 @@ type Student = {
     name: string;
     sex: string;
     date_of_birth: string;
+};
+
+const formatDateLocale = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
 };
 
 export default function Student({
@@ -54,10 +63,6 @@ export default function Student({
                 <h1 className="text-3xl font-medium">Daftar Siswa</h1>
 
                 <div className="flex justify-between py-1">
-                    <Button variant="default" onClick={() => router.visit(route('student.create'))}>
-                        Tambah Siswa
-                    </Button>
-
                     <div className="w-64">
                         <Select
                             value={selectedClass ?? 'all'}
@@ -86,16 +91,21 @@ export default function Student({
                             </SelectContent>
                         </Select>
                     </div>
+                    <Button variant="default" onClick={() => router.visit(route('student.create'))}>
+                        Tambah Siswa
+                    </Button>
                 </div>
 
                 <Table headers={['Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
                     {students.map((student) => (
                         <TableRow key={student.id}>
-                            <TableCell isHeader>{student.class?.name}</TableCell>
+                            <TableCell isHeader>
+                                <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black"> {student.class?.name}</p>
+                            </TableCell>
                             <TableCell>{student.nis}</TableCell>
                             <TableCell isHeader>{student.name}</TableCell>
                             <TableCell>{student.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
-                            <TableCell>{student.date_of_birth}</TableCell>
+                            <TableCell>{formatDateLocale(student.date_of_birth)}</TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>

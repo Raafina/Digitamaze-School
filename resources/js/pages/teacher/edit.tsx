@@ -205,12 +205,14 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
                             {/* Selected Classes Display */}
                             {data.student_class_ids.length > 0 && (
                                 <div className="mt-2">
-                                    <p className="mb-2 text-sm font-medium text-gray-700">Kelas Terpilih ({data.student_class_ids.length}):</p>
+                                    <p className="mb-2 text-sm font-medium text-gray-700 dark:text-white">
+                                        Kelas Terpilih ({data.student_class_ids.length}):
+                                    </p>
                                     <div className="flex flex-wrap gap-2">
                                         {data.student_class_ids.map((classId) => (
                                             <div
                                                 key={classId}
-                                                className="inline-flex items-center gap-1 rounded-md border bg-white px-2.5 py-1 text-sm font-medium text-black"
+                                                className="inline-flex items-center gap-1 rounded-md bg-black px-2.5 py-1 text-sm font-medium text-white dark:bg-white dark:text-black"
                                             >
                                                 {getClassName(classId)}
                                                 <Button
@@ -219,7 +221,7 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
                                                     size="sm"
                                                     onClick={() => removeSelectedClass(classId)}
                                                     disabled={processing}
-                                                    className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full p-0 text-black hover:bg-gray-100 disabled:opacity-50"
+                                                    className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full text-white disabled:opacity-50 dark:text-black"
                                                 >
                                                     <X className="h-3 w-3" />
                                                 </Button>

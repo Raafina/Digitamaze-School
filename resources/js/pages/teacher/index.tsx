@@ -63,33 +63,41 @@ export default function Teacher({
                 <h1 className="text-3xl font-medium">Daftar Guru</h1>
 
                 <div className="flex justify-between py-1">
+                    <div className="w-64">
+                        <Select
+                            value={selectedClassId?.toString() ?? 'all'}
+                            onValueChange={(value) => {
+                                router.get(route('teachers.index'), { student_class_id: value === 'all' ? null : value }, { preserveScroll: true });
+                            }}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter Kelas" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">Semua Kelas</SelectItem>
+                                {studentClasses.map((cls) => (
+                                    <SelectItem key={cls.id} value={cls.id.toString()}>
+                                        {cls.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <Button variant="default" onClick={() => router.visit(route('teachers.create'))}>
                         Tambah Guru
                     </Button>
-                    <Select
-                        value={selectedClassId?.toString() ?? 'all'}
-                        onValueChange={(value) => {
-                            router.get(route('teachers.index'), { student_class_id: value === 'all' ? null : value }, { preserveScroll: true });
-                        }}
-                    >
-                        <SelectTrigger className="w-[200px]">
-                            <SelectValue placeholder="Filter Kelas" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Semua Kelas</SelectItem>
-                            {studentClasses.map((cls) => (
-                                <SelectItem key={cls.id} value={cls.id.toString()}>
-                                    {cls.name}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
                 </div>
 
-                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Email', 'No Telepon', 'Jenis Kelamin', 'Periode', 'Actions']}>
+                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
                     {teacherClasses.map((item) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
-                            <TableCell>{item.class_name}</TableCell>
+                            <TableCell>
+                                {item.class_name ? (
+                                    <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black">{item.class_name}</p>
+                                ) : (
+                                    <p className="w-fit rounded-lg bg-red-900 px-2 py-1 text-white">Tidak ada kelas</p>
+                                )}
+                            </TableCell>
                             <TableCell>{item.teacher_nip}</TableCell>
                             <TableCell isHeader>{item.teacher_name}</TableCell>
                             <TableCell>{item.teacher_email ?? '-'}</TableCell>

@@ -42,7 +42,7 @@ class TeacherController extends Controller
             ->orderBy('student_classes.name')
             ->get();
 
-        $studentClasses = StudentClass::select('id', 'name')->get();
+        $studentClasses = StudentClass::select('id', 'name',)->get();
 
         return Inertia::render('teacher/index', [
             'teacherClasses' => $teacherClasses,
