@@ -40,11 +40,6 @@ type StudentClass = {
 };
 
 export default function TeacherEdit({ teacher, studentClasses }: { teacher: UpdateTeacherForm; studentClasses: StudentClass[] }) {
-    // Debug: Log data yang diterima
-    console.log('Teacher data:', teacher);
-    console.log('Student classes:', studentClasses);
-    console.log('Teacher ID from teacher object:', teacher?.id);
-
     const { data, setData, put, processing, errors, reset } = useForm<Required<UpdateTeacherForm>>({
         id: teacher?.id || '',
         NIP: teacher?.NIP || '',
@@ -54,8 +49,6 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
         phone: teacher?.phone || '',
         student_class_ids: teacher?.student_class_ids || [],
     });
-
-    console.log('Form data:', data); // Debug form data
 
     const [selectedClassId, setSelectedClassId] = useState<string>('');
 
@@ -84,7 +77,6 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
         const cls = studentClasses.find((c) => c.id === classId);
         if (!cls) return `Kelas ID: ${classId} (tidak ditemukan)`;
 
-        // Handle different data structures - some might have period, some might not
         if (cls.period) {
             return `${cls.name} (${cls.period})`;
         }

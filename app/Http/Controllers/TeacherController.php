@@ -16,7 +16,6 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        // Query untuk mendapatkan data guru dan kelas dalam bentuk flat (satu record per guru-kelas)
         $query = DB::table('teachers')
             ->leftJoin('teacher_student_classes', 'teachers.id', '=', 'teacher_student_classes.teacher_id')
             ->leftJoin('student_classes', 'teacher_student_classes.student_class_id', '=', 'student_classes.id')
