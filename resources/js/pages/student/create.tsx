@@ -22,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 type CreateStudentForm = {
-    class_id: string;
+    student_class_id: string;
     nis: string;
     name: string;
     sex: string;
@@ -36,7 +36,7 @@ type ClassesOptions = {
 
 export default function StudentCreate({ classes }: { classes: ClassesOptions[] }) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<CreateStudentForm>>({
-        class_id: '',
+        student_class_id: '',
         nis: '',
         name: '',
         sex: '',
@@ -47,7 +47,7 @@ export default function StudentCreate({ classes }: { classes: ClassesOptions[] }
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('student.store'), {
-            onFinish: () => reset('class_id', 'nis', 'name', 'sex', 'date_of_birth'),
+            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth'),
         });
     };
 
@@ -82,8 +82,8 @@ export default function StudentCreate({ classes }: { classes: ClassesOptions[] }
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="class_id">Kelas</Label>
-                            <Select value={String(data.class_id)} onValueChange={(value) => setData('class_id', value)}>
+                            <Label htmlFor="student_class_id">Kelas</Label>
+                            <Select value={String(data.student_class_id)} onValueChange={(value) => setData('student_class_id', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Pilih kelas" />
                                 </SelectTrigger>
@@ -95,7 +95,7 @@ export default function StudentCreate({ classes }: { classes: ClassesOptions[] }
                                     ))}
                                 </SelectContent>
                             </Select>
-                            <InputError message={errors.class_id} className="mt-2" />
+                            <InputError message={errors.student_class_id} className="mt-2" />
                         </div>
 
                         <div className="grid gap-2">

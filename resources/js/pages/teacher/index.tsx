@@ -65,7 +65,7 @@ export default function Teacher({
                     <Select
                         value={selectedClassId?.toString() ?? 'all'}
                         onValueChange={(value) => {
-                            router.get(route('teachers.index'), { class_id: value === 'all' ? null : value }, { preserveScroll: true });
+                            router.get(route('teachers.index'), { student_class_id: value === 'all' ? null : value }, { preserveScroll: true });
                         }}
                     >
                         <SelectTrigger className="w-[200px]">

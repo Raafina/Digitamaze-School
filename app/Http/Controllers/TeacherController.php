@@ -15,7 +15,7 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        $selectedClassId = $request->get('class_id');
+        $selectedClassId = $request->get('student_class_id');
 
         $teachers = Teacher::with('studentClasses:id,name')
             ->when($selectedClassId, function ($query, $classId) {

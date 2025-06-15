@@ -65,7 +65,7 @@ export default function Student({
                                 router.get(
                                     route('student.index'),
                                     {
-                                        class_id: value === 'all' ? null : value,
+                                        student_class_id: value === 'all' ? null : value,
                                     },
                                     {
                                         preserveScroll: true,

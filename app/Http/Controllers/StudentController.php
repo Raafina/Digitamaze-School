@@ -15,9 +15,9 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $classId = $request->input('class_id');
+        $classId = $request->input('student_class_id');
         $students = Student::with('class')
-            ->when($classId, fn($q) => $q->where('class_id', $classId))
+            ->when($classId, fn($q) => $q->where('student_class_id', $classId))
             ->get();
 
         $classes = StudentClass::select('id', 'name')->get();
@@ -46,7 +46,7 @@ class StudentController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'max:255'],
-            'class_id' => ['required'],
+            'student_class_id' => ['required'],
             'nis' => ['required', 'max:50', Rule::unique('students')->whereNull('deleted_at')],
             'sex' => ['required', Rule::in(['male', 'female'])],
             'date_of_birth' => ['required', 'date'],
@@ -79,7 +79,7 @@ class StudentController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'max:255'],
-            'class_id' => ['required'],
+            'student_class_id' => ['required'],
             'nis' => ['required', 'max:50', Rule::unique('students')->ignore($id)->whereNull('deleted_at')],
             'sex' => ['required', Rule::in(['male', 'female'])],
             'date_of_birth' => ['required', 'date'],

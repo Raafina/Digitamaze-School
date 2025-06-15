@@ -107,7 +107,7 @@ export default function TeacherEdit({ teacher }: { teacher: UpdateTeacherForm })
                                 disabled={processing}
                                 placeholder="08123456789"
                             />
-                            <InputError message={errors.email} />
+                            <InputError message={errors.phone} />
                         </div>
 
                         <div className="grid gap-2">

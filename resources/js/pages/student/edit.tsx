@@ -24,7 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 type UpdateStudentForm = {
     id: string;
-    class_id: string;
+    student_class_id: string;
     nis: string;
     name: string;
     sex: string;
@@ -40,7 +40,7 @@ type ClassesOptions = {
 export default function TeacherEdit({ student, classes }: { student: UpdateStudentForm; classes: ClassesOptions[] }) {
     const { data, setData, put, processing, errors, reset } = useForm<Required<UpdateStudentForm>>({
         id: student.id,
-        class_id: student.class_id,
+        student_class_id: student.student_class_id,
         nis: student.nis,
         name: student.name,
         sex: student.sex,
@@ -51,7 +51,7 @@ export default function TeacherEdit({ student, classes }: { student: UpdateStude
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         put(route('student.update', student.id), {
-            onFinish: () => reset('class_id', 'nis', 'name', 'sex', 'date_of_birth', 'address'),
+            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth', 'address'),
         });
     };
 
@@ -86,8 +86,8 @@ export default function TeacherEdit({ student, classes }: { student: UpdateStude
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="class_id">Kelas</Label>
-                            <Select value={String(data.class_id)} onValueChange={(value) => setData('class_id', value)}>
+                            <Label htmlFor="student_class_id">Kelas</Label>
+                            <Select value={String(data.student_class_id)} onValueChange={(value) => setData('student_class_id', value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Pilih kelas" />
                                 </SelectTrigger>
@@ -99,7 +99,7 @@ export default function TeacherEdit({ student, classes }: { student: UpdateStude
                                     ))}
                                 </SelectContent>
                             </Select>
-                            <InputError message={errors.class_id} className="mt-2" />
+                            <InputError message={errors.student_class_id} className="mt-2" />
                         </div>
 
                         <div className="grid gap-2">

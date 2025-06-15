@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('sex', ['male', 'female']);
             $table->date('date_of_birth')->nullable();
             $table->text('address')->nullable();
-            $table->foreignId('class_id')->constrained('student_classes')->onDelete('cascade');
+            $table->foreignId('student_class_id')->constrained('student_classes')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
