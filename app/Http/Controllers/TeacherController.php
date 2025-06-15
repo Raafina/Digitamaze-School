@@ -40,9 +40,10 @@ class TeacherController extends Controller
 
         $teacherClasses = $query->orderBy('teachers.name')
             ->orderBy('student_classes.name')
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
-        $studentClasses = StudentClass::select('id', 'name',)->get();
+        $studentClasses = StudentClass::select('id', 'name')->get();
 
         return Inertia::render('teacher/index', [
             'teacherClasses' => $teacherClasses,
@@ -50,7 +51,6 @@ class TeacherController extends Controller
             'selectedClassId' => $request->student_class_id ? (int) $request->student_class_id : null,
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */

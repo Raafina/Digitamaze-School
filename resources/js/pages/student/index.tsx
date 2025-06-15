@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 
+import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,6 +28,26 @@ type Student = {
     date_of_birth: string;
 };
 
+type PaginationData = {
+    current_page: number;
+    data: Student[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+};
+
 const formatDateLocale = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('id-ID', {
@@ -41,7 +62,7 @@ export default function Student({
     classes,
     selectedClass,
 }: {
-    students: Student[];
+    students: PaginationData;
     classes: { id: number; name: string }[];
     selectedClass: string | null;
 }) {
@@ -54,6 +75,17 @@ export default function Student({
                 onSuccess: () => setSelectedId(null),
             });
         }
+    }
+
+    function handlePageChange(url: string) {
+        router.get(
+            url,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
     }
 
     return (
@@ -97,7 +129,7 @@ export default function Student({
                 </div>
 
                 <Table headers={['Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
-                    {students.map((student) => (
+                    {students.data.map((student) => (
                         <TableRow key={student.id}>
                             <TableCell isHeader>
                                 <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black"> {student.class?.name}</p>
@@ -123,6 +155,27 @@ export default function Student({
                         </TableRow>
                     ))}
                 </Table>
+
+                {students.data.length === 0 && (
+                    <div className="flex h-32 items-center justify-center rounded-lg border border-dashed">
+                        <div className="text-center">
+                            <p className="text-sm text-muted-foreground">{selectedClass ? 'Tidak ada siswa di kelas ini' : 'Belum ada data siswa'}</p>
+                        </div>
+                    </div>
+                )}
+
+                {students.data.length > 0 && (
+                    <Pagination
+                        currentPage={students.current_page}
+                        lastPage={students.last_page}
+                        from={students.from}
+                        to={students.to}
+                        total={students.total}
+                        prevPageUrl={students.prev_page_url}
+                        nextPageUrl={students.next_page_url}
+                        onPageChange={handlePageChange}
+                    />
+                )}
 
                 <Dialog open={selectedId !== null} onOpenChange={(open) => !open && setSelectedId(null)}>
                     <DialogContent>

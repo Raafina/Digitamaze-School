@@ -1,15 +1,16 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
+import { SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
+import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table } from '@/components/ui/table';
 import { TableCell } from '@/components/ui/table-cell';
 import { TableRow } from '@/components/ui/table-row';
-import { SquarePen, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,12 +37,32 @@ type StudentClass = {
     name: string;
 };
 
+type PaginationData = {
+    current_page: number;
+    data: TeacherClass[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+};
+
 export default function Teacher({
     teacherClasses,
     studentClasses,
     selectedClassId,
 }: {
-    teacherClasses: TeacherClass[];
+    teacherClasses: PaginationData;
     studentClasses: StudentClass[];
     selectedClassId: number | null;
 }) {
@@ -54,6 +75,17 @@ export default function Teacher({
                 onSuccess: () => setSelectedId(null),
             });
         }
+    }
+
+    function handlePageChange(url: string) {
+        router.get(
+            url,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
     }
 
     return (
@@ -89,7 +121,7 @@ export default function Teacher({
                 </div>
 
                 <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
-                    {teacherClasses.map((item) => (
+                    {teacherClasses.data.map((item) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
                             <TableCell>
                                 {item.class_name ? (
@@ -121,7 +153,7 @@ export default function Teacher({
                     ))}
                 </Table>
 
-                {teacherClasses.length === 0 && (
+                {teacherClasses.data.length === 0 && (
                     <div className="flex h-32 items-center justify-center rounded-lg border border-dashed">
                         <div className="text-center">
                             <p className="text-sm text-muted-foreground">
@@ -129,6 +161,19 @@ export default function Teacher({
                             </p>
                         </div>
                     </div>
+                )}
+
+                {teacherClasses.data.length > 0 && (
+                    <Pagination
+                        currentPage={teacherClasses.current_page}
+                        lastPage={teacherClasses.last_page}
+                        from={teacherClasses.from}
+                        to={teacherClasses.to}
+                        total={teacherClasses.total}
+                        prevPageUrl={teacherClasses.prev_page_url}
+                        nextPageUrl={teacherClasses.next_page_url}
+                        onPageChange={handlePageChange}
+                    />
                 )}
 
                 <Dialog open={selectedId !== null} onOpenChange={(open) => !open && setSelectedId(null)}>

@@ -15,7 +15,7 @@ class StudentClassController extends Controller
      */
     public function index()
     {
-        $student_classes = StudentClass::all();
+        $student_classes = StudentClass::orderBy('created_at')->paginate(10)->withQueryString();
         return Inertia::render('student-class/index', [
             'student_classes' => $student_classes
         ]);

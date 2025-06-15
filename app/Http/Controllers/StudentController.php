@@ -16,18 +16,21 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $classId = $request->input('student_class_id');
+
         $students = Student::with('class')
             ->when($classId, fn($q) => $q->where('student_class_id', $classId))
-            ->get();
+            ->orderBy('created_at')
+            ->paginate(10)
+            ->withQueryString();
 
-        $classes = StudentClass::select('id', 'name')->get();
+        $classes = StudentClass::select('id', 'name')->orderBy('name')->get();
+
         return Inertia::render('student/index', [
             'students' => $students,
             'classes' => $classes,
             'selectedClass' => $classId,
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */

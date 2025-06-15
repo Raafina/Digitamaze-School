@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 
+import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table } from '@/components/ui/table';
@@ -24,7 +25,30 @@ type StudentClass = {
     period: string;
 };
 
-export default function StudentClass({ student_classes }: { student_classes: StudentClass[] }) {
+type PaginationData = {
+    current_page: number;
+    data: StudentClass[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+    url: string | null;
+    label: string;
+    active: boolean;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+};
+
+export default function StudentClass({ student_classes }: { student_classes: PaginationData }) {
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     function handleDeleteConfirm() {
@@ -34,6 +58,17 @@ export default function StudentClass({ student_classes }: { student_classes: Stu
                 onSuccess: () => setSelectedId(null),
             });
         }
+    }
+
+    function handlePageChange(url: string) {
+        router.get(
+            url,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
     }
 
     return (
@@ -49,7 +84,7 @@ export default function StudentClass({ student_classes }: { student_classes: Stu
                 </div>
 
                 <Table headers={['Kode', 'Nama', 'Periode', 'Actions']}>
-                    {student_classes.map((student_class) => (
+                    {student_classes.data.map((student_class) => (
                         <TableRow key={student_class.id}>
                             <TableCell>{student_class.code}</TableCell>
                             <TableCell isHeader>{student_class.name}</TableCell>
@@ -71,6 +106,19 @@ export default function StudentClass({ student_classes }: { student_classes: Stu
                         </TableRow>
                     ))}
                 </Table>
+
+                {student_classes.data.length > 0 && (
+                    <Pagination
+                        currentPage={student_classes.current_page}
+                        lastPage={student_classes.last_page}
+                        from={student_classes.from}
+                        to={student_classes.to}
+                        total={student_classes.total}
+                        prevPageUrl={student_classes.prev_page_url}
+                        nextPageUrl={student_classes.next_page_url}
+                        onPageChange={handlePageChange}
+                    />
+                )}
 
                 <Dialog open={selectedId !== null} onOpenChange={(open) => !open && setSelectedId(null)}>
                     <DialogContent>
