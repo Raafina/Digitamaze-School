@@ -29,6 +29,7 @@ type UpdateTeacherForm = {
     email: string;
     sex: string;
     phone: string;
+    subject: string;
     student_class_ids: number[];
 };
 
@@ -47,6 +48,7 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
         email: teacher?.email || '',
         sex: teacher?.sex || '',
         phone: teacher?.phone || '',
+        subject: teacher?.subject || '',
         student_class_ids: teacher?.student_class_ids || [],
     });
 
@@ -140,7 +142,10 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
                                 tabIndex={3}
                                 autoComplete="tel"
                                 value={data.phone}
-                                onChange={(e) => setData('phone', e.target.value)}
+                                onChange={(e) => {
+                                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                                    setData('phone', onlyNumbers);
+                                }}
                                 disabled={processing}
                                 placeholder="08123456789"
                             />
@@ -175,6 +180,22 @@ export default function TeacherEdit({ teacher, studentClasses }: { teacher: Upda
                                 </SelectContent>
                             </Select>
                             <InputError message={errors.sex} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="subject">Mata Pelajaran</Label>
+                            <Input
+                                id="subject"
+                                type="subject"
+                                required
+                                tabIndex={4}
+                                autoComplete="subject"
+                                value={data.subject}
+                                onChange={(e) => setData('subject', e.target.value)}
+                                disabled={processing}
+                                placeholder="Mata Pelajaran"
+                            />
+                            <InputError message={errors.subject} />
                         </div>
 
                         <div className="grid gap-2">

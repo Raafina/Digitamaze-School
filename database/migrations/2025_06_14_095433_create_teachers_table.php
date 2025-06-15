@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('sex', ['male', 'female']);
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('subject')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

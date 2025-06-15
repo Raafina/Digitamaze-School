@@ -27,6 +27,7 @@ type TeacherClass = {
     teacher_sex: string;
     teacher_email: string;
     teacher_phone: string;
+    teacher_subject: string;
     class_id: number;
     class_name: string;
     class_code: string;
@@ -122,7 +123,7 @@ export default function Teacher({
                     </Button>
                 </div>
 
-                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
+                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
                     {teacherClasses.data.map((item) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
                             <TableCell>
@@ -134,6 +135,7 @@ export default function Teacher({
                             </TableCell>
                             <TableCell>{item.teacher_nip}</TableCell>
                             <TableCell isHeader>{item.teacher_name}</TableCell>
+                            <TableCell>{item.teacher_subject}</TableCell>
                             <TableCell>{item.teacher_email ?? '-'}</TableCell>
                             <TableCell>{item.teacher_phone ?? '-'}</TableCell>
                             <TableCell>{item.teacher_sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>

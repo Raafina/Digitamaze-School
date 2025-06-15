@@ -25,6 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 type CreateTeacherForm = {
     NIP: string;
     name: string;
+    subject: string;
     email: string;
     sex: string;
     phone: string;
@@ -44,6 +45,7 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
         name: '',
         email: '',
         sex: '',
+        subject: '',
         phone: '',
         student_class_ids: [],
     });
@@ -76,7 +78,7 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
 
     const getClassName = (classId: number) => {
         const cls = studentClasses.find((c) => c.id === classId);
-        return cls ? `${cls.name} (${cls.period})` : '';
+        return cls ? `${cls.name}` : '';
     };
 
     const availableClasses = studentClasses.filter((cls) => !data.student_class_ids.includes(cls.id));
@@ -136,7 +138,10 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                                 tabIndex={3}
                                 autoComplete="phone"
                                 value={data.phone}
-                                onChange={(e) => setData('phone', e.target.value)}
+                                onChange={(e) => {
+                                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                                    setData('phone', onlyNumbers);
+                                }}
                                 disabled={processing}
                                 placeholder="08123456789"
                             />
@@ -171,6 +176,22 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                                 </SelectContent>
                             </Select>
                             <InputError message={errors.sex} />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="subject">Mata Pelajaran</Label>
+                            <Input
+                                id="subject"
+                                type="subject"
+                                required
+                                tabIndex={4}
+                                autoComplete="subject"
+                                value={data.subject}
+                                onChange={(e) => setData('subject', e.target.value)}
+                                disabled={processing}
+                                placeholder="Mata Pelajaran"
+                            />
+                            <InputError message={errors.subject} />
                         </div>
 
                         <div className="grid gap-2">

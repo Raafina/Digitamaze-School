@@ -28,6 +28,7 @@ class TeacherController extends Controller
                 'teachers.sex as teacher_sex',
                 'teachers.email as teacher_email',
                 'teachers.phone as teacher_phone',
+                'teachers.subject as teacher_subject',
                 'student_classes.id as class_id',
                 'student_classes.name as class_name',
                 'student_classes.code as class_code',
@@ -38,7 +39,7 @@ class TeacherController extends Controller
             $query->where('student_classes.id', $request->student_class_id);
         }
 
-        $teacherClasses = $query->orderBy('teachers.name')
+        $teacherClasses = $query->orderBy('teachers.created_at', 'desc')
             ->orderBy('student_classes.name')
             ->paginate(10)
             ->withQueryString();
@@ -81,6 +82,7 @@ class TeacherController extends Controller
             'email' => ['required', 'email', 'max:50'],
             'sex' => ['required', Rule::in(['male', 'female'])],
             'phone' => ['required', 'max:15'],
+            'subject' => ['required', 'max:50'],
             'student_class_ids' => ['array'],
             'student_class_ids.*' => ['integer', 'exists:student_classes,id'],
         ]);
@@ -92,6 +94,7 @@ class TeacherController extends Controller
                 'email' => $validated['email'],
                 'sex' => $validated['sex'],
                 'phone' => $validated['phone'],
+                'subject' => $validated['subject'],
             ]);
 
             if (!empty($validated['student_class_ids'])) {
@@ -121,6 +124,7 @@ class TeacherController extends Controller
                 'id' => $teacher->id,
                 'NIP' => $teacher->NIP,
                 'name' => $teacher->name,
+                'subject' => $teacher->subject,
                 'email' => $teacher->email,
                 'sex' => $teacher->sex,
                 'phone' => $teacher->phone,
@@ -144,6 +148,7 @@ class TeacherController extends Controller
                     ->whereNull('deleted_at'),
             ],
             'name' => ['required', 'max:255'],
+            'subject' => ['required', 'max:50'],
             'email' => ['required', 'email', 'max:50'],
             'sex' => ['required', Rule::in(['male', 'female'])],
             'phone' => ['required', 'max:15'],
@@ -160,6 +165,7 @@ class TeacherController extends Controller
                 'email' => $validated['email'],
                 'sex' => $validated['sex'],
                 'phone' => $validated['phone'],
+                'subject' => $validated['subject'],
             ]);
 
             $teacher->studentClasses()->sync($validated['student_class_ids'] ?? []);

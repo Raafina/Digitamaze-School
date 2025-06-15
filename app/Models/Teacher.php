@@ -20,6 +20,7 @@ class Teacher extends Model
         'sex',
         'phone',
         'email',
+        'subject',
     ];
 
     public function studentClasses()
