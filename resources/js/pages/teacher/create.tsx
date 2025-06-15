@@ -1,8 +1,8 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { ArrowLeft, LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { ArrowLeft, LoaderCircle, X } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -21,29 +21,65 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/teachers/create',
     },
 ];
+
 type CreateTeacherForm = {
     NIP: string;
     name: string;
     email: string;
     sex: string;
     phone: string;
+    student_class_ids: number[];
 };
 
-export default function TeacherCreate() {
+type StudentClass = {
+    id: number;
+    name: string;
+    code: string;
+    period: string;
+};
+
+export default function TeacherCreate({ studentClasses }: { studentClasses: StudentClass[] }) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<CreateTeacherForm>>({
         NIP: '',
         name: '',
         email: '',
         sex: '',
         phone: '',
+        student_class_ids: [],
     });
+
+    const [selectedClassId, setSelectedClassId] = useState<string>('');
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('teachers.store'), {
-            onFinish: () => reset('NIP', 'name', 'email', 'sex', 'phone'),
+            onFinish: () => {
+                reset('NIP', 'name', 'email', 'sex', 'phone', 'student_class_ids');
+                setSelectedClassId('');
+            },
         });
     };
+
+    const addSelectedClass = () => {
+        if (selectedClassId && !data.student_class_ids.includes(parseInt(selectedClassId))) {
+            setData('student_class_ids', [...data.student_class_ids, parseInt(selectedClassId)]);
+            setSelectedClassId('');
+        }
+    };
+
+    const removeSelectedClass = (classId: number) => {
+        setData(
+            'student_class_ids',
+            data.student_class_ids.filter((id) => id !== classId),
+        );
+    };
+
+    const getClassName = (classId: number) => {
+        const cls = studentClasses.find((c) => c.id === classId);
+        return cls ? `${cls.name} (${cls.period})` : '';
+    };
+
+    const availableClasses = studentClasses.filter((cls) => !data.student_class_ids.includes(cls.id));
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -81,8 +117,7 @@ export default function TeacherCreate() {
                                 id="name"
                                 type="text"
                                 required
-                                autoFocus
-                                tabIndex={1}
+                                tabIndex={2}
                                 autoComplete="name"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
@@ -96,16 +131,16 @@ export default function TeacherCreate() {
                             <Label htmlFor="phone">Nomor Telephone</Label>
                             <Input
                                 id="phone"
-                                type="phone"
+                                type="tel"
                                 required
-                                tabIndex={2}
+                                tabIndex={3}
                                 autoComplete="phone"
                                 value={data.phone}
                                 onChange={(e) => setData('phone', e.target.value)}
                                 disabled={processing}
                                 placeholder="08123456789"
                             />
-                            <InputError message={errors.email} />
+                            <InputError message={errors.phone} />
                         </div>
 
                         <div className="grid gap-2">
@@ -114,7 +149,7 @@ export default function TeacherCreate() {
                                 id="email"
                                 type="email"
                                 required
-                                tabIndex={2}
+                                tabIndex={4}
                                 autoComplete="email"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
@@ -138,9 +173,60 @@ export default function TeacherCreate() {
                             <InputError message={errors.sex} />
                         </div>
 
-                        <Button type="submit" className="mt-2 w-fit" tabIndex={5} disabled={processing}>
+                        <div className="grid gap-2">
+                            <Label>Kelas Yang Diajar</Label>
+                            <div className="flex gap-2">
+                                <Select
+                                    value={selectedClassId}
+                                    onValueChange={setSelectedClassId}
+                                    disabled={processing || availableClasses.length === 0}
+                                >
+                                    <SelectTrigger className="flex-1">
+                                        <SelectValue placeholder={availableClasses.length === 0 ? 'Semua kelas sudah dipilih' : 'Pilih kelas'} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {availableClasses.map((cls) => (
+                                            <SelectItem key={cls.id} value={cls.id.toString()}>
+                                                {cls.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <Button type="button" variant="outline" onClick={addSelectedClass} disabled={!selectedClassId || processing}>
+                                    Tambah
+                                </Button>
+                            </div>
+                            <InputError message={errors.student_class_ids} />
+
+                            {/* Selected Classes Display */}
+                            {data.student_class_ids.length > 0 && (
+                                <div className="mt-2">
+                                    <p className="mb-2 text-sm font-medium text-gray-700">Kelas Terpilih ({data.student_class_ids.length}):</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {data.student_class_ids.map((classId) => (
+                                            <div
+                                                key={classId}
+                                                className="inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1 text-sm font-medium text-black"
+                                            >
+                                                {getClassName(classId)}
+                                                <Button
+                                                    type="button"
+                                                    onClick={() => removeSelectedClass(classId)}
+                                                    disabled={processing}
+                                                    className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full text-black disabled:opacity-50"
+                                                >
+                                                    <X className="h-3 w-3" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <Button type="submit" className="mt-2 w-fit" tabIndex={6} disabled={processing}>
                             {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                            Tambah
+                            Tambah Guru
                         </Button>
                     </div>
                 </form>

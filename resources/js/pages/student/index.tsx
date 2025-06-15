@@ -88,7 +88,7 @@ export default function Student({
                     </div>
                 </div>
 
-                <Table headers={['siswa', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
+                <Table headers={['Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
                     {students.map((student) => (
                         <TableRow key={student.id}>
                             <TableCell isHeader>{student.class?.name}</TableCell>

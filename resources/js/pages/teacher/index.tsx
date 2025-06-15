@@ -18,13 +18,17 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Teacher = {
-    id: number;
-    NIP: string;
-    name: string;
-    sex: string;
-    email: string;
-    phone: string;
+type TeacherClass = {
+    teacher_id: number;
+    teacher_nip: string;
+    teacher_name: string;
+    teacher_sex: string;
+    teacher_email: string;
+    teacher_phone: string;
+    class_id: number;
+    class_name: string;
+    class_code: string;
+    class_period: string;
 };
 
 type StudentClass = {
@@ -33,11 +37,11 @@ type StudentClass = {
 };
 
 export default function Teacher({
-    teachers,
+    teacherClasses,
     studentClasses,
     selectedClassId,
 }: {
-    teachers: Teacher[];
+    teacherClasses: TeacherClass[];
     studentClasses: StudentClass[];
     selectedClassId: number | null;
 }) {
@@ -54,7 +58,7 @@ export default function Teacher({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Daftar Guru" />
+            <Head title="Daftar Guru dan Kelas" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <h1 className="text-3xl font-medium">Daftar Guru</h1>
 
@@ -82,31 +86,42 @@ export default function Teacher({
                     </Select>
                 </div>
 
-                <Table headers={['NIP', 'Nama', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
-                    {teachers.map((teacher) => (
-                        <TableRow key={teacher.id}>
-                            <TableCell>{teacher.NIP}</TableCell>
-                            <TableCell isHeader>{teacher.name}</TableCell>
-                            <TableCell>{teacher.email ?? '-'}</TableCell>
-                            <TableCell>{teacher.phone ?? '-'}</TableCell>
-                            <TableCell>{teacher.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
+                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Email', 'No Telepon', 'Jenis Kelamin', 'Periode', 'Actions']}>
+                    {teacherClasses.map((item) => (
+                        <TableRow key={`${item.teacher_id}-${item.class_id}`}>
+                            <TableCell>{item.class_name}</TableCell>
+                            <TableCell>{item.teacher_nip}</TableCell>
+                            <TableCell isHeader>{item.teacher_name}</TableCell>
+                            <TableCell>{item.teacher_email ?? '-'}</TableCell>
+                            <TableCell>{item.teacher_phone ?? '-'}</TableCell>
+                            <TableCell>{item.teacher_sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button variant="destructive" onClick={() => setSelectedId(teacher.id)}>
-                                                <Trash2 />
+                                            <Button variant="destructive" size="sm" onClick={() => setSelectedId(item.teacher_id)}>
+                                                <Trash2 className="h-4 w-4" />
                                             </Button>
                                         </DialogTrigger>
                                     </Dialog>
-                                    <Button variant="default" onClick={() => router.visit(route('teachers.edit', teacher.id))}>
-                                        <SquarePen />
+                                    <Button variant="default" size="sm" onClick={() => router.visit(route('teachers.edit', item.teacher_id))}>
+                                        <SquarePen className="h-4 w-4" />
                                     </Button>
                                 </div>
                             </TableCell>
                         </TableRow>
                     ))}
                 </Table>
+
+                {teacherClasses.length === 0 && (
+                    <div className="flex h-32 items-center justify-center rounded-lg border border-dashed">
+                        <div className="text-center">
+                            <p className="text-sm text-muted-foreground">
+                                {selectedClassId ? 'Tidak ada guru yang mengajar kelas ini' : 'Belum ada data guru dan kelas'}
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 <Dialog open={selectedId !== null} onOpenChange={(open) => !open && setSelectedId(null)}>
                     <DialogContent>

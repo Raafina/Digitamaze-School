@@ -37,7 +37,7 @@ type ClassesOptions = {
     name: string;
 };
 
-export default function TeacherEdit({ student, classes }: { student: UpdateStudentForm; classes: ClassesOptions[] }) {
+export default function StudentEdit({ student, classes }: { student: UpdateStudentForm; classes: ClassesOptions[] }) {
     const { data, setData, put, processing, errors, reset } = useForm<Required<UpdateStudentForm>>({
         id: student.id,
         student_class_id: student.student_class_id,
