@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Student;
-use App\Models\Teacher;
+use App\Models\TeacherStudentClasses;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,5 +49,10 @@ class StudentClass extends Model
     public function students()
     {
         return $this->hasMany(Student::class);
+    }
+
+    public function teacherStudentClasses()
+    {
+        return $this->hasMany(TeacherStudentClasses::class);
     }
 }

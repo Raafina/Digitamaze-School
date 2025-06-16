@@ -124,8 +124,9 @@ export default function Teacher({
                 </div>
 
                 <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
-                    {teacherClasses.data.map((item) => (
+                    {teacherClasses.data.map((item, index) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
+                            <TableCell>{(teacherClasses.current_page - 1) * teacherClasses.per_page + index + 1}</TableCell>
                             <TableCell>
                                 {item.class_name ? (
                                     <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black">{item.class_name}</p>

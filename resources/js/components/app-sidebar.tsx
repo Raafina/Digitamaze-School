@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { GraduationCapIcon, House, SquareUserRound } from 'lucide-react';
+import { Folder, GraduationCapIcon, House, SquareUserRound } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +21,24 @@ const mainNavItems: NavItem[] = [
         title: 'Kelas',
         href: '/admin/student-classes',
         icon: House,
+    },
+    {
+        title: 'Rekap',
+        icon: Folder,
+        children: [
+            {
+                title: 'Siswa',
+                href: '/admin/recap/students',
+            },
+            {
+                title: 'Guru',
+                href: '/admin/recap/teachers',
+            },
+            {
+                title: 'Siswa, Kelas & Guru',
+                href: '/admin/recap/all',
+            },
+        ],
     },
 ];
 

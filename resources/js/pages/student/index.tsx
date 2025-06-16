@@ -129,9 +129,10 @@ export default function Student({
                     </Button>
                 </div>
 
-                <Table headers={['Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
-                    {students.data.map((student) => (
+                <Table headers={['No', 'Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Actions']}>
+                    {students.data.map((student, index) => (
                         <TableRow key={student.id}>
+                            <TableCell>{(students.current_page - 1) * students.per_page + index + 1}</TableCell>
                             <TableCell isHeader>
                                 <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black"> {student.class?.name}</p>
                             </TableCell>
