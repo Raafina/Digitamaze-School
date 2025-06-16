@@ -85,7 +85,7 @@ export default function StudentClass({ student_classes }: { student_classes: Pag
                     </Button>
                 </div>
 
-                <Table headers={['No', 'Kode', 'Nama', 'Periode', 'Actions']}>
+                <Table headers={['No', 'Kode', 'Nama', 'Periode', 'Aksi']}>
                     {student_classes.data.map((student_class, index) => (
                         <TableRow key={student_class.id}>
                             <TableCell>{(student_classes.current_page - 1) * student_classes.per_page + index + 1}</TableCell>

@@ -123,7 +123,7 @@ export default function Teacher({
                     </Button>
                 </div>
 
-                <Table headers={['Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Actions']}>
+                <Table headers={['No', 'Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Aksi']}>
                     {teacherClasses.data.map((item, index) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
                             <TableCell>{(teacherClasses.current_page - 1) * teacherClasses.per_page + index + 1}</TableCell>
