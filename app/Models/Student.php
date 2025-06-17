@@ -20,11 +20,17 @@ class Student extends Model
         'sex',
         'date_of_birth',
         'address',
-        'student_class_id'
+        'student_class_id',
+        'parent_id'
     ];
 
     public function class()
     {
         return $this->belongsTo(StudentClass::class, 'student_class_id');
+    }
+
+    public function parents()
+    {
+        return $this->belongsTo(StudentParent::class, 'parent_id');
     }
 }

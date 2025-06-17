@@ -16,11 +16,16 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
+        // Make query from teachers table
         $query = DB::table('teachers')
+            // join to pivot depends on teachers
             ->leftJoin('teacher_student_classes', 'teachers.id', '=', 'teacher_student_classes.teacher_id')
+            // join to student_classes table depends on teacher_student_classes
             ->leftJoin('student_classes', 'teacher_student_classes.student_class_id', '=', 'student_classes.id')
+            // dont get deleted data
             ->whereNull('teachers.deleted_at')
             ->whereNull('student_classes.deleted_at')
+            // naming columns
             ->select([
                 'teachers.id as teacher_id',
                 'teachers.NIP as teacher_nip',
@@ -97,6 +102,7 @@ class TeacherController extends Controller
                 'subject' => $validated['subject'],
             ]);
 
+            // attach student classes
             if (!empty($validated['student_class_ids'])) {
                 $teacher->studentClasses()->attach($validated['student_class_ids']);
             }

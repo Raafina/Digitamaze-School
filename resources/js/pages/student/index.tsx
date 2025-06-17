@@ -27,6 +27,7 @@ type Student = {
     name: string;
     sex: string;
     date_of_birth: string;
+    parents: { name: string };
 };
 
 type PaginationData = {
@@ -129,7 +130,7 @@ export default function Student({
                     </Button>
                 </div>
 
-                <Table headers={['No', 'Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Aksi']}>
+                <Table headers={['No', 'Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Orang Tua ', 'Aksi']}>
                     {students.data.map((student, index) => (
                         <TableRow key={student.id}>
                             <TableCell>{(students.current_page - 1) * students.per_page + index + 1}</TableCell>
@@ -140,6 +141,7 @@ export default function Student({
                             <TableCell isHeader>{student.name}</TableCell>
                             <TableCell>{student.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
                             <TableCell>{formatDateLocale(student.date_of_birth)}</TableCell>
+                            <TableCell>{student.parents.name}</TableCell>
                             <TableCell>
                                 <div className="space-x-2">
                                     <Dialog>

@@ -28,13 +28,19 @@ type CreateStudentForm = {
     sex: string;
     date_of_birth: string;
     address: string;
+    parent_id: string;
 };
 type ClassesOptions = {
     id: string;
     name: string;
 };
 
-export default function StudentCreate({ classes }: { classes: ClassesOptions[] }) {
+type ParentsOptions = {
+    id: string;
+    name: string;
+};
+
+export default function StudentCreate({ classes, parents }: { classes: ClassesOptions[]; parents: ParentsOptions[] }) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<CreateStudentForm>>({
         student_class_id: '',
         nis: '',
@@ -42,12 +48,13 @@ export default function StudentCreate({ classes }: { classes: ClassesOptions[] }
         sex: '',
         date_of_birth: '',
         address: '',
+        parent_id: '',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('student.store'), {
-            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth'),
+            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth', 'address', 'parent_id'),
         });
     };
 
@@ -159,6 +166,23 @@ export default function StudentCreate({ classes }: { classes: ClassesOptions[] }
                                 placeholder="Alamat lengkap"
                             />
                             <InputError message={errors.address} className="mt-2" />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="parent_id">Orang Tua Murid</Label>
+                            <Select value={String(data.parent_id)} onValueChange={(value) => setData('parent_id', value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih orang tua murid" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {parents.map((parent) => (
+                                        <SelectItem key={parent.id} value={String(parent.id)}>
+                                            {parent.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={errors.parent_id} className="mt-2" />
                         </div>
 
                         <Button type="submit" className="mt-2 w-fit" tabIndex={5} disabled={processing}>

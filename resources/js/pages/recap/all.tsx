@@ -95,7 +95,7 @@ export default function AllRecap({ allRecaps }: { allRecaps: PaginationData }) {
                             </TableCell>
                             <TableCell>
                                 {allRecap.teachers ? (
-                                    allRecap.teachers.map((teacher) => (
+                                    allRecap.students.map((teacher) => (
                                         <p
                                             key={teacher.id}
                                             className="mr-2 mb-2 inline-block rounded-full bg-black px-2 py-1 text-white dark:bg-white dark:text-black"

@@ -22,6 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/students/edit',
     },
 ];
+
 type UpdateStudentForm = {
     id: string;
     student_class_id: string;
@@ -30,14 +31,27 @@ type UpdateStudentForm = {
     sex: string;
     date_of_birth: string;
     address: string;
+    parent_id: string;
 };
-
 type ClassesOptions = {
     id: string;
     name: string;
 };
 
-export default function StudentEdit({ student, classes }: { student: UpdateStudentForm; classes: ClassesOptions[] }) {
+type ParentsOptions = {
+    id: string;
+    name: string;
+};
+
+export default function StudentEdit({
+    student,
+    classes,
+    parents,
+}: {
+    student: UpdateStudentForm;
+    classes: ClassesOptions[];
+    parents: ParentsOptions[];
+}) {
     const { data, setData, put, processing, errors, reset } = useForm<Required<UpdateStudentForm>>({
         id: student.id,
         student_class_id: student.student_class_id,
@@ -46,12 +60,13 @@ export default function StudentEdit({ student, classes }: { student: UpdateStude
         sex: student.sex,
         date_of_birth: student.date_of_birth,
         address: student.address,
+        parent_id: student.parent_id,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         put(route('student.update', student.id), {
-            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth', 'address'),
+            onFinish: () => reset('student_class_id', 'nis', 'name', 'sex', 'date_of_birth', 'address', 'parent_id'),
         });
     };
 
@@ -163,6 +178,23 @@ export default function StudentEdit({ student, classes }: { student: UpdateStude
                                 placeholder="Alamat lengkap"
                             />
                             <InputError message={errors.address} className="mt-2" />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="parent_id">Orang Tua Murid</Label>
+                            <Select value={String(data.parent_id)} onValueChange={(value) => setData('parent_id', value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih orang tua murid" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {parents.map((parent) => (
+                                        <SelectItem key={parent.id} value={String(parent.id)}>
+                                            {parent.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <InputError message={errors.parent_id} className="mt-2" />
                         </div>
 
                         <Button type="submit" className="mt-2 w-fit" tabIndex={5} disabled={processing}>

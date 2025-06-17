@@ -20,7 +20,7 @@ type Teachers = {
     name: string;
 };
 
-type AllRecaps = {
+type teacherRecaps = {
     id: number;
     class_name: string;
     teachers: Teachers[];
@@ -28,7 +28,7 @@ type AllRecaps = {
 
 type PaginationData = {
     current_page: number;
-    data: AllRecaps[];
+    data: teacherRecaps[];
     first_page_url: string;
     from: number;
     last_page: number;

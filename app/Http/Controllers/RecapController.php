@@ -58,9 +58,11 @@ class RecapController extends Controller
 
     public function recap_all()
     {
+        // get student class with student and teacher
         $allRecaps = StudentClass::with(['students:id,name,student_class_id', 'teacherStudentClasses.teacher:id,name'])
             ->paginate(10)
             ->through(function ($class) {
+                // Map teachers from the pivot relation
                 $teachers = $class->teacherStudentClasses
                     ->map(fn($rel) => $rel->teacher)
                     ->filter()
@@ -69,7 +71,7 @@ class RecapController extends Controller
                         'name' => $teacher->name,
                     ])
                     ->toArray();
-
+                // Map students
                 $students = $class->students
                     ->map(fn($student) => [
                         'id' => $student->id,

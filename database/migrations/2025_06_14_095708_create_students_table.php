@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->text('address')->nullable();
             $table->foreignId('student_class_id')->constrained('student_classes')->onDelete('cascade');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

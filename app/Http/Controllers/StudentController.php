@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Student;
 use App\Models\StudentClass;
 use Illuminate\Http\Request;
+use App\Models\StudentParent;
 use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
@@ -17,9 +18,9 @@ class StudentController extends Controller
     {
         $classId = $request->input('student_class_id');
 
-        $students = Student::with('class')
+        $students = Student::with(['class', 'parents'])
             ->when($classId, fn($q) => $q->where('student_class_id', $classId))
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
 
@@ -37,8 +38,10 @@ class StudentController extends Controller
     public function create()
     {
         $classes = StudentClass::all();
+        $parents = StudentParent::all();
         return Inertia::render('student/create', [
-            'classes' => $classes
+            'classes' => $classes,
+            'parents' => $parents,
         ]);
     }
 
@@ -54,6 +57,7 @@ class StudentController extends Controller
             'sex' => ['required', Rule::in(['male', 'female'])],
             'date_of_birth' => ['required', 'date'],
             'address' => ['required', 'max:255'],
+            'parent_id' => ['nullable', 'exists:student_parents,id'],
 
         ]);
 
@@ -67,10 +71,12 @@ class StudentController extends Controller
     public function edit($id)
     {
         $classes = StudentClass::all();
+        $parents = StudentParent::all();
         $student = Student::findOrFail($id);
         return Inertia::render('student/edit', [
             'student' => $student,
-            'classes' => $classes
+            'classes' => $classes,
+            'parents' => $parents
         ]);
     }
 
@@ -87,6 +93,7 @@ class StudentController extends Controller
             'sex' => ['required', Rule::in(['male', 'female'])],
             'date_of_birth' => ['required', 'date'],
             'address' => ['required', 'max:255'],
+            'parent_id' => ['nullable', 'exists:student_parents,id'],
 
         ]);
 
