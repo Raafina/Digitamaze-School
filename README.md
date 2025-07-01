@@ -33,7 +33,7 @@ Sekonekti is a simple school management system that focuses on school data stora
         <p><pre>npm install</pre></p>
     </li>
     <li>
-        <p>Configure the .env file/SQLite</p>
+        <p>Configure the .env file</p>
         <ul>
             <li>Duplicate .env.example and rename it to .env</li>
             <li>Adjust the database and environment configurations</li>
