@@ -8,18 +8,18 @@ import { type PropsWithChildren } from 'react';
 
 const sidebarNavItems: NavItem[] = [
     {
-        title: 'Profile',
-        href: '/settings/profile',
+        title: 'Profil',
+        href: '/admin/settings/profile',
         icon: null,
     },
     {
         title: 'Password',
-        href: '/settings/password',
+        href: '/admin/settings/password',
         icon: null,
     },
     {
-        title: 'Appearance',
-        href: '/settings/appearance',
+        title: 'Tampilan',
+        href: '/admin/settings/appearance',
         icon: null,
     },
 ];
@@ -34,7 +34,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
 
     return (
         <div className="px-4 py-6">
-            <Heading title="Settings" description="Manage your profile and account settings" />
+            <Heading title="Pengaturan" description="Kelola profil dan pengaturan akun Anda" />
 
             <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
@@ -49,7 +49,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                     'bg-muted': currentPath === item.href,
                                 })}
                             >
-                                <Link href={item.href} prefetch>
+                                <Link href={item.href as string} prefetch>
                                     {item.title}
                                 </Link>
                             </Button>
