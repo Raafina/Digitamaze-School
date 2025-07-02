@@ -4,6 +4,7 @@ import { Head, router } from '@inertiajs/react';
 import { SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
+import InputSearch from '@/components/input-search';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -77,13 +78,13 @@ export default function StudentClass({ student_classes }: { student_classes: Pag
             <Head title="Daftar Kelas" />
             <Toast />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <h1 className="text-3xl font-medium">Daftar Kelas</h1>
-
                 <div className="flex justify-between py-1">
+                    <h1 className="text-3xl font-medium">Daftar Kelas</h1>
                     <Button variant="default" onClick={() => router.visit(route('student-class.create'))}>
                         Tambah Kelas
                     </Button>
                 </div>
+                <InputSearch route={route('student-class.index')} placeholder="Cari berdasarkan nama kode, nama atau periode kelas..." />
 
                 <Table headers={['No', 'Kode', 'Nama', 'Periode', 'Aksi']}>
                     {student_classes.data.map((student_class, index) => (

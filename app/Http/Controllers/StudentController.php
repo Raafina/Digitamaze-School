@@ -16,10 +16,8 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $classId = $request->input('student_class_id');
-
-        $students = Student::with(['class', 'parents'])
-            ->when($classId, fn($q) => $q->where('student_class_id', $classId))
+        $students = Student::filter(request(['search', 'student_class_id']))
+            ->with(['class', 'parents'])
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -29,7 +27,7 @@ class StudentController extends Controller
         return Inertia::render('student/index', [
             'students' => $students,
             'classes' => $classes,
-            'selectedClass' => $classId,
+            'selectedClass' => $request->input('student_class_id'),
         ]);
     }
     /**

@@ -16,9 +16,10 @@ class StudentParentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $parents = StudentParent::with('student')->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $parents = StudentParent::filter(request(['search']))
+            ->with('student')->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
         return Inertia::render('parent/index', [
             'parents' => $parents

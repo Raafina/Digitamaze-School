@@ -40,6 +40,18 @@ class TeacherController extends Controller
                 'student_classes.period as class_period'
             ]);
 
+        // Filter by search (teacher name, NIP, email, or subject)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('teachers.name', 'like', '%' . $search . '%')
+                    ->orWhere('teachers.NIP', 'like', '%' . $search . '%')
+                    ->orWhere('teachers.email', 'like', '%' . $search . '%')
+                    ->orWhere('teachers.subject', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter by class
         if ($request->filled('student_class_id') && $request->student_class_id !== 'all') {
             $query->where('student_classes.id', $request->student_class_id);
         }
@@ -55,6 +67,7 @@ class TeacherController extends Controller
             'teacherClasses' => $teacherClasses,
             'studentClasses' => $studentClasses,
             'selectedClassId' => $request->student_class_id ? (int) $request->student_class_id : null,
+            'search' => $request->search,
         ]);
     }
     /**

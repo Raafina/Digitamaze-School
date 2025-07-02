@@ -13,9 +13,10 @@ class StudentClassController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $student_classes = StudentClass::orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $student_classes = StudentClass::filter(request(['search']))
+            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
         return Inertia::render('student-class/index', [
             'student_classes' => $student_classes
         ]);

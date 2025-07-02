@@ -4,6 +4,7 @@ import { Head, router } from '@inertiajs/react';
 import { SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
+import InputSearch from '@/components/input-search';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -95,9 +96,15 @@ export default function Teacher({
             <Head title="Daftar Guru dan Kelas" />
             <Toast />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <h1 className="text-3xl font-medium">Daftar Guru</h1>
+                <div className="flex justify-between">
+                    <h1 className="text-3xl font-medium">Daftar Guru</h1>
+                    <Button variant="default" onClick={() => router.visit(route('teachers.create'))}>
+                        Tambah Guru
+                    </Button>
+                </div>
 
                 <div className="flex justify-between py-1">
+                    <InputSearch route={route('teachers.index')} placeholder="Cari berdasarkan nama guru..." />
                     <div className="w-64">
                         <Select
                             value={selectedClassId?.toString() ?? 'all'}
@@ -118,9 +125,6 @@ export default function Teacher({
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button variant="default" onClick={() => router.visit(route('teachers.create'))}>
-                        Tambah Guru
-                    </Button>
                 </div>
 
                 <Table headers={['No', 'Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Aksi']}>

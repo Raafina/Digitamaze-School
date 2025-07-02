@@ -16,4 +16,13 @@ class StudentParent extends Model
     {
         return $this->hasMany(Student::class, 'parent_id');
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn($query, $search) =>
+            $query->where('name', 'like', '%' . $search . '%')
+        );
+    }
 }

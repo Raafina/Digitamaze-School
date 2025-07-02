@@ -4,6 +4,7 @@ import { Head, router } from '@inertiajs/react';
 import { SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
+import InputSearch from '@/components/input-search';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -75,14 +76,13 @@ export default function Teacher({ parents }: { parents: PaginationData }) {
             <Head title="Daftar Orang Tua Murid" />
             <Toast />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <h1 className="text-3xl font-medium">Daftar Orang Tua Murid</h1>
-
-                <div className="flex justify-between py-1">
+                <div className="flex justify-between">
+                    <h1 className="text-3xl font-medium">Daftar Orang Tua Murid</h1>
                     <Button variant="default" onClick={() => router.visit(route('parents.create'))}>
                         Tambah Orang Tua Murid
                     </Button>
                 </div>
-
+                <InputSearch route={route('parents.index')} placeholder="Cari berdasarkan nama orang tua..." />
                 <Table headers={['No', 'Nama', 'Pekerjaan', 'Siswa', 'Aksi']}>
                     {parents.data.map((parent, index) => (
                         <TableRow key={`${parent.id}-${parent.id}`}>
