@@ -217,7 +217,7 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                                     </div>
                                 </CardContent>
                             </Card>
-                            <Button type="submit" className="hidden w-fit lg:block" tabIndex={6} disabled={processing}>
+                            <Button type="submit" className="hidden w-fit lg:flex" tabIndex={6} disabled={processing}>
                                 {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                 Tambah
                             </Button>
@@ -314,7 +314,7 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                             </CardContent>
                         </Card>
                     </div>
-                    <Button type="submit" className="mt-4 block w-fit lg:hidden" tabIndex={6} disabled={processing}>
+                    <Button type="submit" className="mt-4 flex w-fit lg:hidden" tabIndex={6} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                         Tambah
                     </Button>
