@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Eye, SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import InputSearch from '@/components/input-search';
@@ -127,7 +127,7 @@ export default function Teacher({
                     </div>
                 </div>
 
-                <Table headers={['No', 'Kelas', 'NIP', 'Nama Guru', 'Mapel', 'Email', 'No Telepon', 'Jenis Kelamin', 'Aksi']}>
+                <Table headers={['No', 'Kelas', 'Nama Guru', 'Mapel', 'Email', 'Jenis Kelamin', 'Aksi']}>
                     {teacherClasses.data.map((item, index) => (
                         <TableRow key={`${item.teacher_id}-${item.class_id}`}>
                             <TableCell>{(teacherClasses.current_page - 1) * teacherClasses.per_page + index + 1}</TableCell>
@@ -138,14 +138,18 @@ export default function Teacher({
                                     <p className="w-fit rounded-lg bg-red-900 px-2 py-1 text-white">Tidak ada kelas</p>
                                 )}
                             </TableCell>
-                            <TableCell>{item.teacher_nip}</TableCell>
                             <TableCell isHeader>{item.teacher_name}</TableCell>
                             <TableCell>{item.teacher_subject}</TableCell>
                             <TableCell>{item.teacher_email ?? '-'}</TableCell>
-                            <TableCell>{item.teacher_phone ?? '-'}</TableCell>
                             <TableCell>{item.teacher_sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
                             <TableCell>
-                                <div className="space-x-2">
+                                <div className="flex flex-row space-x-2">
+                                    <Button variant="default" size="sm" onClick={() => router.visit(route('teachers.show', item.teacher_id))}>
+                                        <Eye className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="warning" size="sm" onClick={() => router.visit(route('teachers.edit', item.teacher_id))}>
+                                        <SquarePen className="h-4 w-4" />
+                                    </Button>
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             <Button variant="destructive" size="sm" onClick={() => setSelectedId(item.teacher_id)}>
@@ -153,9 +157,6 @@ export default function Teacher({
                                             </Button>
                                         </DialogTrigger>
                                     </Dialog>
-                                    <Button variant="default" size="sm" onClick={() => router.visit(route('teachers.edit', item.teacher_id))}>
-                                        <SquarePen className="h-4 w-4" />
-                                    </Button>
                                 </div>
                             </TableCell>
                         </TableRow>

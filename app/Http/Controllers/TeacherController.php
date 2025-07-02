@@ -84,6 +84,30 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $teacher = Teacher::findOrFail($id);
+        $teacher->load('studentClasses');
+
+        $studentClasses = StudentClass::select('id', 'name')
+            ->orderBy('name')
+            ->get();
+
+        return Inertia::render('teacher/show', [
+            'teacher' => [
+                'id' => $teacher->id,
+                'NIP' => $teacher->NIP,
+                'name' => $teacher->name,
+                'subject' => $teacher->subject,
+                'email' => $teacher->email,
+                'sex' => $teacher->sex,
+                'phone' => $teacher->phone,
+                'created_at' => $teacher->created_at,
+                'student_class_ids' => $teacher->studentClasses->pluck('id')->toArray(),
+            ],
+            'studentClasses' => $studentClasses,
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.

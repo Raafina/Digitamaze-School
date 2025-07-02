@@ -135,20 +135,18 @@ export default function Student({
                     </div>
                 </div>
 
-                <Table headers={['No', 'Kelas', 'NIS', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Orang Tua ', 'Aksi']}>
+                <Table headers={['No', 'Kelas', 'Nama', 'Jenis Kelamin', 'Tanggal Lahir', 'Aksi']}>
                     {students.data.map((student, index) => (
                         <TableRow key={student.id}>
                             <TableCell>{(students.current_page - 1) * students.per_page + index + 1}</TableCell>
                             <TableCell isHeader>
                                 <p className="w-fit rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black"> {student.class?.name}</p>
                             </TableCell>
-                            <TableCell>{student.nis}</TableCell>
                             <TableCell isHeader>{student.name}</TableCell>
                             <TableCell>{student.sex === 'male' ? 'Laki-laki' : 'Perempuan'}</TableCell>
                             <TableCell>{formatDateLocale(student.date_of_birth)}</TableCell>
-                            <TableCell>{student.parents.name}</TableCell>
                             <TableCell>
-                                <div className="space-x-2">
+                                <div className="flex flex-row space-x-2">
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             <Button variant="destructive" onClick={() => setSelectedId(student.id)}>

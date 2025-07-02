@@ -28,6 +28,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::prefix('/teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index'])->name('teachers.index');
         Route::get('/create', [TeacherController::class, 'create'])->name('teachers.create');
+        Route::get('/{id}', [TeacherController::class, 'show'])->name('teachers.show');
         Route::post('/', [TeacherController::class, 'store'])->name('teachers.store');
         Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
         Route::put('/{id}', [TeacherController::class, 'update'])->name('teachers.update');
