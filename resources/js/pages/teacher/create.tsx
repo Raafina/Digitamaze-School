@@ -101,121 +101,127 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
             </div>
 
             {/* Content Section */}
-            <div className="space-y-6 px-6">
+            <div className="space-y-6 px-4">
                 <form id="teacher-form" onSubmit={submit}>
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4">
                         {/* Personal Information Form */}
-                        <Card className="h-fit shadow-lg transition-shadow duration-200 hover:shadow-xl lg:col-span-2">
-                            <CardHeader>
-                                <CardTitle className="flex items-center justify-between gap-2 text-xl">
-                                    <div className="flex items-center gap-2">
-                                        <User />
-                                        <span className="font-medium">Informasi Pribadi</span>
-                                    </div>
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                    <div className="space-y-6">
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="name">Nama Lengkap</Label>
-                                            <Input
-                                                id="name"
-                                                type="text"
-                                                required
-                                                autoFocus
-                                                value={data.name}
-                                                onChange={(e) => setData('name', e.target.value)}
-                                                disabled={processing}
-                                                placeholder="Nama lengkap guru"
-                                            />
-                                            <InputError message={errors.name} />
+                        <div className="space-y-4 lg:col-span-2">
+                            <Card className="h-fit shadow-lg transition-shadow duration-200 hover:shadow-xl lg:col-span-2">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center justify-between gap-2 text-xl">
+                                        <div className="flex items-center gap-2">
+                                            <User />
+                                            <span className="font-medium">Informasi Pribadi</span>
                                         </div>
-
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="NIP">NIP</Label>
-                                            <Input
-                                                id="NIP"
-                                                type="text"
-                                                required
-                                                value={data.NIP}
-                                                onChange={(e) => setData('NIP', e.target.value)}
-                                                disabled={processing}
-                                                placeholder="Nomor Induk Pegawai"
-                                            />
-                                            <InputError message={errors.NIP} />
-                                        </div>
-
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="sex">Jenis Kelamin</Label>
-                                            <Select value={data.sex || ''} onValueChange={(value) => setData('sex', value)}>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Pilih jenis kelamin" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="male">Laki-laki</SelectItem>
-                                                    <SelectItem value="female">Perempuan</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <InputError message={errors.sex} />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-6">
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="email">Email</Label>
-                                            <div className="relative">
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                        <div className="space-y-6">
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="name">Nama Lengkap</Label>
                                                 <Input
-                                                    id="email"
-                                                    type="email"
-                                                    required
-                                                    value={data.email}
-                                                    onChange={(e) => setData('email', e.target.value)}
-                                                    disabled={processing}
-                                                    placeholder="email@sekolah.id"
-                                                />
-                                            </div>
-                                            <InputError message={errors.email} />
-                                        </div>
-
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="phone">Telepon</Label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="phone"
-                                                    type="tel"
-                                                    required
-                                                    value={data.phone}
-                                                    onChange={(e) => {
-                                                        const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                                                        setData('phone', onlyNumbers);
-                                                    }}
-                                                    disabled={processing}
-                                                    placeholder="08123456789"
-                                                />
-                                            </div>
-                                            <InputError message={errors.phone} />
-                                        </div>
-
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="subject">Mata Pelajaran</Label>
-                                            <div className="relative">
-                                                <Input
-                                                    id="subject"
+                                                    id="name"
                                                     type="text"
                                                     required
-                                                    value={data.subject}
-                                                    onChange={(e) => setData('subject', e.target.value)}
+                                                    autoFocus
+                                                    value={data.name}
+                                                    onChange={(e) => setData('name', e.target.value)}
                                                     disabled={processing}
-                                                    placeholder="Mata pelajaran yang diampu"
+                                                    placeholder="Nama lengkap guru"
                                                 />
+                                                <InputError message={errors.name} />
                                             </div>
-                                            <InputError message={errors.subject} />
+
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="NIP">NIP</Label>
+                                                <Input
+                                                    id="NIP"
+                                                    type="text"
+                                                    required
+                                                    value={data.NIP}
+                                                    onChange={(e) => setData('NIP', e.target.value)}
+                                                    disabled={processing}
+                                                    placeholder="Nomor Induk Pegawai"
+                                                />
+                                                <InputError message={errors.NIP} />
+                                            </div>
+
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="sex">Jenis Kelamin</Label>
+                                                <Select value={data.sex || ''} onValueChange={(value) => setData('sex', value)}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Pilih jenis kelamin" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="male">Laki-laki</SelectItem>
+                                                        <SelectItem value="female">Perempuan</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                <InputError message={errors.sex} />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-6">
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="email">Email</Label>
+                                                <div className="relative">
+                                                    <Input
+                                                        id="email"
+                                                        type="email"
+                                                        required
+                                                        value={data.email}
+                                                        onChange={(e) => setData('email', e.target.value)}
+                                                        disabled={processing}
+                                                        placeholder="email@sekolah.id"
+                                                    />
+                                                </div>
+                                                <InputError message={errors.email} />
+                                            </div>
+
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="phone">Telepon</Label>
+                                                <div className="relative">
+                                                    <Input
+                                                        id="phone"
+                                                        type="tel"
+                                                        required
+                                                        value={data.phone}
+                                                        onChange={(e) => {
+                                                            const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                                                            setData('phone', onlyNumbers);
+                                                        }}
+                                                        disabled={processing}
+                                                        placeholder="08123456789"
+                                                    />
+                                                </div>
+                                                <InputError message={errors.phone} />
+                                            </div>
+
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="subject">Mata Pelajaran</Label>
+                                                <div className="relative">
+                                                    <Input
+                                                        id="subject"
+                                                        type="text"
+                                                        required
+                                                        value={data.subject}
+                                                        onChange={(e) => setData('subject', e.target.value)}
+                                                        disabled={processing}
+                                                        placeholder="Mata pelajaran yang diampu"
+                                                    />
+                                                </div>
+                                                <InputError message={errors.subject} />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                            <Button type="submit" className="hidden w-fit lg:block" tabIndex={6} disabled={processing}>
+                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                                Tambah
+                            </Button>
+                        </div>
 
                         {/* Classes Management */}
                         <Card className="shadow-lg transition-shadow duration-200 hover:shadow-xl">
@@ -244,10 +250,7 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                                                 <SelectContent>
                                                     {availableClasses.map((cls) => (
                                                         <SelectItem key={cls.id} value={cls.id.toString()}>
-                                                            <div className="flex items-center gap-2">
-                                                                {cls.name}
-                                                                {cls.period && <span className="text-xs text-gray-500">({cls.period})</span>}
-                                                            </div>
+                                                            <div className="flex items-center gap-2">{cls.name}</div>
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
@@ -311,9 +314,9 @@ export default function TeacherCreate({ studentClasses }: { studentClasses: Stud
                             </CardContent>
                         </Card>
                     </div>
-                    <Button type="submit" className="mt-4 w-fit lg:mt-0" tabIndex={6} disabled={processing}>
+                    <Button type="submit" className="mt-4 block w-fit lg:hidden" tabIndex={6} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Tambah Guru
+                        Tambah
                     </Button>
                 </form>
             </div>

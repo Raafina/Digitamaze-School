@@ -17,7 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type DetailTeacher = {
+type UpdateTeacherForm = {
     id: string;
     NIP: string;
     name: string;
@@ -42,7 +42,7 @@ type StudentClass = {
     period?: string;
 };
 
-export default function TeacherShow({ teacher, studentClasses }: { teacher: DetailTeacher; studentClasses: StudentClass[] }) {
+export default function TeacherShow({ teacher, studentClasses }: { teacher: UpdateTeacherForm; studentClasses: StudentClass[] }) {
     const getSexLabel = (sex: string) => {
         return sex === 'L' ? 'Laki-laki' : 'Perempuan';
     };
@@ -64,8 +64,8 @@ export default function TeacherShow({ teacher, studentClasses }: { teacher: Deta
                 <h1 className="text-3xl font-medium">Detail Data Guru</h1>
             </div>
             {/* Content Section */}
-            <div className="space-y-6 px-6">
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="space-y-6 px-4">
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                     {/* Personal Information */}
                     <Card className="h-fit shadow-lg transition-shadow duration-200 hover:shadow-xl lg:col-span-2">
                         <CardHeader>
