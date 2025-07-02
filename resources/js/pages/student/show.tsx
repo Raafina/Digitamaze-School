@@ -40,7 +40,7 @@ export default function TeacherShow({ student }: { student: DetailStudent }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Detail Guru - ${student.name}`} />
             <div className="flex items-center gap-3 p-4">
-                <Button onClick={() => router.visit(route('students.index'))}>
+                <Button onClick={() => router.visit(route('student.index'))}>
                     <ArrowLeft />
                 </Button>
                 <h1 className="text-3xl font-medium">Detail Data Siswa</h1>
