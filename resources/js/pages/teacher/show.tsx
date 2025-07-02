@@ -17,7 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type UpdateTeacherForm = {
+type DetailTeacher = {
     id: string;
     NIP: string;
     name: string;
@@ -42,7 +42,7 @@ type StudentClass = {
     period?: string;
 };
 
-export default function TeacherShow({ teacher, studentClasses }: { teacher: UpdateTeacherForm; studentClasses: StudentClass[] }) {
+export default function TeacherShow({ teacher, studentClasses }: { teacher: DetailTeacher; studentClasses: StudentClass[] }) {
     const getSexLabel = (sex: string) => {
         return sex === 'L' ? 'Laki-laki' : 'Perempuan';
     };

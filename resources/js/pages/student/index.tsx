@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Eye, SquarePen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import InputSearch from '@/components/input-search';
@@ -147,16 +147,21 @@ export default function Student({
                             <TableCell>{formatDateLocale(student.date_of_birth)}</TableCell>
                             <TableCell>
                                 <div className="flex flex-row space-x-2">
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button variant="destructive" onClick={() => setSelectedId(student.id)}>
-                                                <Trash2 />
-                                            </Button>
-                                        </DialogTrigger>
-                                    </Dialog>
-                                    <Button variant="default" onClick={() => router.visit(route('student.edit', student.id))}>
-                                        <SquarePen />
-                                    </Button>
+                                    <div className="flex flex-row space-x-2">
+                                        <Button variant="default" size="sm" onClick={() => router.visit(route('student.show', student.id))}>
+                                            <Eye className="h-4 w-4" />
+                                        </Button>
+                                        <Button variant="warning" size="sm" onClick={() => router.visit(route('student.edit', student.id))}>
+                                            <SquarePen className="h-4 w-4" />
+                                        </Button>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="destructive" size="sm" onClick={() => setSelectedId(student.id)}>
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </DialogTrigger>
+                                        </Dialog>
+                                    </div>
                                 </div>
                             </TableCell>
                         </TableRow>

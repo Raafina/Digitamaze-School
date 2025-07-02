@@ -63,6 +63,13 @@ class StudentController extends Controller
         return redirect()->route('student.index')->with('success', 'Data Siswa berhasil ditambahkan!');
     }
 
+    public function show($id)
+    {
+        $student = Student::findOrFail($id)->load('class', 'parents');
+        return Inertia::render('student/show', [
+            'student' => $student,
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
